@@ -25,6 +25,16 @@ contract NFTGame is ERC721 {
     // Array that hold default data of characters
     CharacterAttributes[] defaultCharacters;
 
+    // BigBosss's Attributes
+    struct BigBoss {
+        string name;
+        string imageURI;
+        uint hp;
+        uint maxHp;
+        uint attackDamage;
+    }
+    BigBoss public bigBoss;
+
     // Token Id
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -39,8 +49,22 @@ contract NFTGame is ERC721 {
         string[] memory characterNames,
         string[] memory characterImageURIs,
         uint[] memory characterHp,
-        uint[] memory characterAttackDmg
+        uint[] memory characterAttackDmg,
+        string memory bossName,
+        string memory bossImageURI,
+        uint bossHp,
+        uint bossAttackDamage
     ) ERC721 ("Sorcerers", "SORC") {
+        // Initialize the boss
+        bigBoss = BigBoss({
+            name : bossName,
+            imageURI : bossImageURI,
+            hp : bossHp,
+            maxHp : bossHp,
+            attackDamage : bossAttackDamage
+        });
+        console.log("Done initializing boss %s w/ HP %s, img %s", bigBoss.name, bigBoss.hp, bigBoss.imageURI);
+
         // Loop through all characters, and save their values in contract
         for (uint i = 0; i < characterNames.length; i++) {
             defaultCharacters.push(
@@ -117,5 +141,37 @@ contract NFTGame is ERC721 {
         );
 
         return output;
+    }
+
+    function attackBoss () public {
+        // Get the state of player's nft
+        uint256 nftTokenIdOfPlayer = nftHolders[msg.sender];
+        //// Storage instead of memory, so that we can change the global value
+        CharacterAttributes storage player = nftHolderAttributes[nftTokenIdOfPlayer];
+        console.log("\nPlayer w/ character %s about to attack. Has %s HP and %s AD", player.name, player.hp, player.attackDamage);
+        console.log("Boss %s has %s HP and %s AD", bigBoss.name, bigBoss.hp, bigBoss.attackDamage);
+
+        // Make sure the player's nft has more than 0 Hp
+        require(player.hp > 0, "Error : Character has no HP:(");
+
+        // Make sure the boss has more than 0 Hp
+        require(bigBoss.hp > 0, "Error : Big Boss has no Hp!");
+
+        // Allow player's character to attack big boss
+        if (bigBoss.hp < player.attackDamage) {
+            bigBoss.hp = 0;
+        } else {
+            bigBoss.hp = bigBoss.hp - player.attackDamage;
+        }
+
+        // Allow big boss to attack player's character
+        if (player.hp < bigBoss.attackDamage) {
+            player.hp = 0;
+        } else {
+            player.hp = player.hp - bigBoss.attackDamage;
+        }
+
+        console.log("Player attacked boss. New boss hp: %s", bigBoss.hp);
+        console.log("Boss attacked player. New player hp: %s\n", player.hp);
     }
 }
