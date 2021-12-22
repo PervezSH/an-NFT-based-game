@@ -1,15 +1,14 @@
-# Basic Sample Hardhat Project
+# Solidity Contract - Turn-Based NFT Browser Game
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+This project demonstrates a basic Hardhat use case. It comes with a smart contract , a test scripts for running locally, and a script that deploys that contract.
 
-Try running some of the following tasks:
+Smart contract of mini turn-based 💎nft browser game, requires minting your own character to 🎮play. Deployed to rinkeby test network.
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+Have a 👀look by clicking the 🔗link given below
+
+https://pervezsh.github.io/turn-based-nft-game/
+
+Connect your 🦊metamask wallet, mint a character, and protect the Metaverse from Cursed Spirits!🙃
+
+**Web app repo 🔗link:**
+https://github.com/PervezSH/turn-based-nft-game
