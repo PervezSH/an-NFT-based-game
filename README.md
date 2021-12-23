@@ -12,3 +12,5 @@ Connect your 🦊metamask wallet, mint a character, and protect the Metaverse fr
 
 **Web app repo 🔗link:**
 https://github.com/PervezSH/turn-based-nft-game
+
+buildspace Guided Project
